@@ -1,0 +1,10 @@
+{
+  "name": "skills",
+  "version": "0.1.0",
+  "description": "Refactoring skills grounded in Fowler, Freeman & Pryce, Ousterhout, Martin, Evans, and Vernon.",
+  "author": {
+    "name": "Jacky"
+  },
+  "keywords": ["refactoring", "ddd", "deep-modules", "skills"],
+  "skills": ["./restructure"]
+}
