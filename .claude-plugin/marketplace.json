@@ -6,7 +6,7 @@
   "description": "Jacky's Claude Code skills.",
   "plugins": [
     {
-      "name": "skills",
+      "name": "jacky-skills",
       "source": "./",
       "description": "Refactoring skills grounded in Fowler, Freeman & Pryce, Ousterhout, Martin, Evans, and Vernon.",
       "category": "engineering",
