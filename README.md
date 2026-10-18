@@ -9,7 +9,7 @@
 
 ## Skills
 
-- **`/jacky-skills:restructure [base-ref | scope]`**: restructure freshly implemented code toward the domain's ubiquitous language and deep modules. Takes a base ref to review what changed since then, or a scope (e.g. "Log module", "Editor", "ShippingService") to review that area's current code regardless of recent changes. Runs every lens in parallel sub-agents, merges their findings into design moves, reports first, then applies the moves you pick, one at a time.
+- **`/jacky-skills:restructure [base-ref | scope]`**: restructure freshly implemented code toward the domain's ubiquitous language and deep modules. Takes a base ref to review what changed since then, or a scope (e.g. "Log module", "Editor", "ShippingService") to review that area's current code regardless of recent changes. Runs every lens in parallel sub-agents, then synthesises their findings into design moves, looking for one fix behind several smells, and verifies each move that claims one against the code. Reports first, then applies the moves you pick, one at a time.
 
 Each lens also runs on its own, with the same arguments and the same report-then-apply process:
 
@@ -18,4 +18,4 @@ Each lens also runs on its own, with the same arguments and the same report-then
 - **`/jacky-skills:domain-model`**: brings the model in line with the domain's language (Evans, *Domain-Driven Design*; Vernon, *Implementing Domain-Driven Design*): drifting names, implicit concepts, building blocks, aggregates.
 - **`/jacky-skills:depth`**: makes modules deep (Ousterhout, *A Philosophy of Software Design*): shallow classes, information leakage, pass-through methods, temporal decomposition.
 
-Lens decisions are recorded in [`docs/adr/`](docs/adr/); the shared report format is [`shared/FINDINGS.md`](shared/FINDINGS.md).
+Lens decisions are recorded in [`docs/adr/`](docs/adr/); the shared report format is [`shared/FINDINGS.md`](shared/FINDINGS.md), synthesis and verification are [`shared/SYNTHESIS.md`](shared/SYNTHESIS.md) and [`shared/VERIFY.md`](shared/VERIFY.md).

@@ -1,6 +1,6 @@
 ---
 name: restructure
-description: Restructure freshly implemented code toward the domain's ubiquitous language and deep modules. Runs every lens in parallel, merges their findings into design moves, reports first, then applies the moves you pick, one at a time.
+description: Restructure freshly implemented code toward the domain's ubiquitous language and deep modules. Runs every lens in parallel, synthesises their findings into design moves that fix several smells at once, verifies them, reports first, then applies the moves you pick, one at a time.
 disable-model-invocation: true
 argument-hint: "[base-ref | scope]"
 ---
@@ -9,7 +9,9 @@ argument-hint: "[base-ref | scope]"
 
 Implementation gets code _working_; this skill makes it _fit_. Review what changed since a base point, or the current state of a named scope, through several **lenses**, each grounded in its own books, and restructure the code so names speak the **ubiquitous language**, each responsibility has one home, one concept lives in one place, and modules are **deep**.
 
-Each lens runs in its own sub-agent. Their findings come back in one shared format, [`FINDINGS.md`](${CLAUDE_PLUGIN_ROOT}/shared/FINDINGS.md), and merge into **design moves**: one coherent restructure per concept, with conflicts between lenses surfaced rather than resolved silently.
+Each lens runs in its own sub-agent and reports in one shared format, [`FINDINGS.md`](${CLAUDE_PLUGIN_ROOT}/shared/FINDINGS.md). A synthesis sub-agent then looks for the root causes behind the smells and turns them into **design moves**: the fewest coherent changes that remove the most smells, with conflicts between lenses surfaced rather than resolved silently. Verify sub-agents check each move that claims to fix several smells before you see it.
+
+The sub-agents pass their work through files in a **run folder**, so this conversation holds only the final moves.
 
 ## Lenses
 
@@ -44,34 +46,55 @@ Run the test suite once and record which tests pass and fail. The **baseline** i
 
 ### 4. Scan, one sub-agent per lens
 
+Create the run folder with `mktemp -d -t restructure-XXXXXX` and tell the user its path.
+
 Dispatch one sub-agent per lens in the run, all in a single message so they run in parallel, and wait for every one to report. Each prompt carries:
 
 - **Ref mode**: the diff command and the base point.
-- **Scope mode**: the scope name, with instructions to locate it first (by directory, module name, class/service name, or whatever else identifies it) before scanning. If nothing in the codebase matches, it reports that back instead of scanning.
+- **Scope mode**: the scope name, with instructions to locate it first (by directory, module name, class/service name, or whatever else identifies it) before scanning. If nothing in the codebase matches, it replies that instead of scanning.
 - The glossary/ADR paths.
 - The absolute path to its lens file, to read in full first, and to `FINDINGS.md`, whose **Report format** it must follow.
+- Its report path: `<run>/<lens>.md`.
 - The brief:
   - **Ref mode**: _"Scan the changed code and the existing code it touches, duplicates, or collaborates with. Concept consolidation needs both sides, so look past the diff."_
   - **Scope mode**: _"Scan all code in this scope, plus the existing code it touches, duplicates, or collaborates with. This isn't limited to recent changes: review the scope's current state as a whole."_
-  - Both close with: _"Look only through your lens: another sub-agent covers each other lens. Report in the Report format of FINDINGS.md, and nothing else."_
+  - Both close with: _"Look only through your lens: another sub-agent covers each other lens. Write your report to your report path in the Report format of FINDINGS.md, and reply with one line."_
 
 If a sub-agent reports that the scope doesn't exist, stop and tell the user.
 
-### 5. Merge into design moves
+Done when every lens's report file exists.
 
-Follow **Merging into design moves** in `FINDINGS.md`. With one lens in the run there is nothing to converge or conflict: each finding becomes its own move, ranked by strength.
+### 5. Synthesise
 
-Done when every finding sits in exactly one move or one conflict.
+Dispatch one sub-agent and wait for it. Its prompt carries the run folder, the lens names in the run, the glossary/ADR paths, the ref-mode diff command or the scope, and the absolute path to `${CLAUDE_PLUGIN_ROOT}/shared/SYNTHESIS.md`, to read in full and follow. It writes `<run>/moves.md`.
 
-### 6. Report
+Done when `moves.md` exists.
 
-Present the moves in rank order, in the move format of `FINDINGS.md`, then the conflicts, then the hints, each under its own heading. The user hasn't read the code the sub-agents read: each move must stand on its own, naming its objects and their neighbours with `path:line`, what they do today, and what they do after. Ask which moves to apply, and how to settle each conflict. Apply nothing yet.
+### 6. Verify the combined moves
+
+Dispatch one sub-agent per **combined** move in `moves.md`, the top five by rank at most, all in a single message, and wait for every one. Each prompt carries the run folder, the move's number, and the absolute path to `${CLAUDE_PLUGIN_ROOT}/shared/VERIFY.md`, to read in full and follow. Each writes `<run>/verify-<n>.md`.
+
+Skip this step when the run has a single lens. Combined moves left unchecked, below the top five or in a single-lens run, are labelled **unverified** in the report.
+
+Done when every dispatched move has a verify file.
+
+### 7. Report
+
+Read `moves.md` and every verify file, and apply each verdict:
+
+- **keep**: label the move **verified**.
+- **downgrade**: turn each claim that wasn't confirmed into ✘ with the verifier's reason, recount the move's value, and label it **verified (downgraded)**.
+- **split**: split the move where the verifier says, each part keeping its own claims.
+- **drop**: remove the move; its findings go under **Dropped** with the verifier's reason.
+- Fix every correction in the move's text, and add each unlisted worse and each conflict with another move.
+
+Re-rank by value after the verdicts. Present the moves in rank order, in the move format of `SYNTHESIS.md`, then the conflicts, then **Dropped**, then the hints, each under its own heading. The user hasn't read the code the sub-agents read: each move must stand on its own, naming its objects and their neighbours with `path:line`, what they do today, and what they do after. End with the suggested apply order. Ask which moves to apply, and how to settle each conflict. Apply nothing yet.
 
 Done when the user could choose between the moves without opening a file.
 
-### 7. Apply, one move at a time
+### 8. Apply, one move at a time
 
-For each chosen move, in the order the user prefers:
+For each chosen move, in the order the user prefers (the suggested apply order by default):
 
 1. Make the restructure, step by step as the move lists them.
 2. Rerun the affected tests and diff against the baseline.
@@ -81,7 +104,7 @@ For each chosen move, in the order the user prefers:
 
 Done when every chosen move is applied or explicitly dropped.
 
-### 8. Close with hints
+### 9. Close with hints
 
 Restate the hints against the restructured code, each naming the skill to run and where:
 
