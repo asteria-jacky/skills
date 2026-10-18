@@ -16,9 +16,11 @@ Each lens runs in its own sub-agent. Their findings come back in one shared form
 | Lens | File | Sources |
 |---|---|---|
 | listen-to-tests | `${CLAUDE_PLUGIN_ROOT}/skills/listen-to-tests/LENS.md` | Freeman & Pryce |
-| design | `${CLAUDE_PLUGIN_ROOT}/skills/restructure/LENSES.md` | Fowler, Martin, Evans, Vernon, Ousterhout |
+| responsibilities | `${CLAUDE_PLUGIN_ROOT}/skills/responsibilities/LENS.md` | Fowler, Martin |
+| domain-model | `${CLAUDE_PLUGIN_ROOT}/skills/domain-model/LENS.md` | Evans, Vernon |
+| depth | `${CLAUDE_PLUGIN_ROOT}/skills/depth/LENS.md` | Ousterhout |
 
-`design` holds the lenses not yet split into their own skills. A lens skill (e.g. `/jacky-skills:listen-to-tests`) runs this process with only its own lens.
+A lens skill (e.g. `/jacky-skills:depth`) runs this process with only its own lens.
 
 ## Process
 
@@ -63,7 +65,9 @@ Done when every finding sits in exactly one move or one conflict.
 
 ### 6. Report
 
-Present the moves in rank order, then the conflicts, then the hints, each under its own heading. Ask which moves to apply, and how to settle each conflict. Apply nothing yet.
+Present the moves in rank order, in the move format of `FINDINGS.md`, then the conflicts, then the hints, each under its own heading. The user hasn't read the code the sub-agents read: each move must stand on its own, naming its objects and their neighbours with `path:line`, what they do today, and what they do after. Ask which moves to apply, and how to settle each conflict. Apply nothing yet.
+
+Done when the user could choose between the moves without opening a file.
 
 ### 7. Apply, one move at a time
 
