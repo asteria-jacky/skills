@@ -5,6 +5,10 @@
   "author": {
     "name": "Jacky"
   },
-  "keywords": ["refactoring", "ddd", "deep-modules", "skills"],
-  "skills": ["./restructure"]
+  "keywords": [
+    "refactoring",
+    "ddd",
+    "deep-modules",
+    "skills"
+  ]
 }

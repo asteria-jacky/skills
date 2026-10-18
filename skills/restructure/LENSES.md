@@ -11,7 +11,7 @@ _Evans, Vernon, Martin._ Code speaks the domain: one term per concept, one conce
 - **Synonyms**: two names for one concept across files (`client` / `customer`).
 - **Homonyms**: one name for two concepts. Split them, and name each.
 
-→ Rename Variable / Function / Class, Change Function Declaration (Fowler).
+→ Rename Variable, Rename Field, Change Function Declaration (Fowler); rename class (no catalog name).
 
 ## Responsibility
 
@@ -46,18 +46,3 @@ _Ousterhout._ A **deep** module hides much behind a narrow interface. Pull compl
 - **Speculative Generality**: hooks, parameters, and layers for needs nobody has. Common in generated code.
 
 → Combine into one deep unit, Inline Function / Class, Remove Middle Man, Hide Delegate (Fowler). Class/function scale only: a boundary between modules or services is a **hint**.
-
-## Tests
-
-_Freeman & Pryce, Ousterhout._ Tests exercise behaviour through the interface. Fewer tests through a deep module cover more than many tests pinned to internals.
-
-- **Pinned tests**: tests asserting private structure, call order, or signatures a restructure is meant to change. Expected collateral: update or delete them.
-- **Test sprawl**: many shallow tests around a cluster a restructure would deepen. Fold them into fewer tests through the new interface.
-- **Untested restructure**: a finding touching code no test exercises. Flag it so the user weighs the risk.
-
-## Hints
-
-Not restructured here; named for the user to run.
-
-- Coupling, cohesion, or boundary smells at module or service scale: `/modularity:review`, `/improve-codebase-architecture`.
-- Mechanical duplication with no domain concept behind it: `/simplify`.
