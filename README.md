@@ -18,4 +18,6 @@ Each lens also runs on its own, with the same arguments and the same report-then
 - **`/jacky-skills:domain-model`**: brings the model in line with the domain's language (Evans, *Domain-Driven Design*; Vernon, *Implementing Domain-Driven Design*): drifting names, implicit concepts, building blocks, aggregates.
 - **`/jacky-skills:depth`**: makes modules deep (Ousterhout, *A Philosophy of Software Design*): shallow classes, information leakage, pass-through methods, temporal decomposition.
 
+- **`/jacky-skills:map [base-ref | scope] [--level high|low]`**: maps the object relationships in a change, a module or a named scope, as a Mermaid diagram at module level (high) or type level (low), with three indicators: cycles, fan-in/fan-out and blast radius. Works for any language: modules come from build manifests, types from regex pattern packs (Swift and TypeScript/JavaScript have their own, others a generic one). A script does the counting; the model names components in the domain's language and verifies the edges behind each cycle before reporting it. Needs only Python 3.
+
 Lens decisions are recorded in [`docs/adr/`](docs/adr/); the shared report format is [`shared/FINDINGS.md`](shared/FINDINGS.md), synthesis and verification are [`shared/SYNTHESIS.md`](shared/SYNTHESIS.md) and [`shared/VERIFY.md`](shared/VERIFY.md).

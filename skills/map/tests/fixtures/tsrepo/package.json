@@ -1,0 +1,1 @@
+{ "name": "tsrepo", "private": true, "workspaces": ["packages/*"] }
