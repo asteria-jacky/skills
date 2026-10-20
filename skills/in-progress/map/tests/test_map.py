@@ -1,4 +1,4 @@
-"""Tests for the map scripts. Run: python3 -m unittest discover -s skills/map/tests"""
+"""Tests for the map scripts. Run: python3 -m unittest discover -s skills/in-progress/map/tests"""
 import json
 import os
 import shutil

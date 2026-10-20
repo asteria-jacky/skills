@@ -9,4 +9,4 @@ argument-hint: "[base-ref | scope]"
 
 Each piece of behaviour belongs with the data it works on and changes for one reason. This lens reads the code for Fowler's smells (Feature Envy, Divergent Change, Data Clumps, Shotgun Surgery) and moves behaviour to its home, with a stop condition against over-decomposition. This skill runs one lens, [LENS.md](LENS.md).
 
-The plugin root is `${CLAUDE_PLUGIN_ROOT}`. Read `${CLAUDE_PLUGIN_ROOT}/skills/restructure/SKILL.md` and follow its process with the argument `$ARGUMENTS`, dispatching only this lens: `${CLAUDE_SKILL_DIR}/LENS.md`. Paths in that file written as `${CLAUDE_PLUGIN_ROOT}/…` resolve against the plugin root above.
+The plugin root is `${CLAUDE_PLUGIN_ROOT}`. Read `${CLAUDE_PLUGIN_ROOT}/skills/engineering/restructure/SKILL.md` and follow its process with the argument `$ARGUMENTS`, dispatching only this lens: `${CLAUDE_SKILL_DIR}/LENS.md`. Paths in that file written as `${CLAUDE_PLUGIN_ROOT}/…` resolve against the plugin root above.

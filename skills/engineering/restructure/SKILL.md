@@ -17,10 +17,10 @@ The sub-agents pass their work through files in a **run folder**, so this conver
 
 | Lens | File | Sources |
 |---|---|---|
-| listen-to-tests | `${CLAUDE_PLUGIN_ROOT}/skills/listen-to-tests/LENS.md` | Freeman & Pryce |
-| responsibilities | `${CLAUDE_PLUGIN_ROOT}/skills/responsibilities/LENS.md` | Fowler, Martin |
-| domain-model | `${CLAUDE_PLUGIN_ROOT}/skills/domain-model/LENS.md` | Evans, Vernon |
-| depth | `${CLAUDE_PLUGIN_ROOT}/skills/depth/LENS.md` | Ousterhout |
+| listen-to-tests | `${CLAUDE_PLUGIN_ROOT}/skills/engineering/listen-to-tests/LENS.md` | Freeman & Pryce |
+| responsibilities | `${CLAUDE_PLUGIN_ROOT}/skills/engineering/responsibilities/LENS.md` | Fowler, Martin |
+| domain-model | `${CLAUDE_PLUGIN_ROOT}/skills/engineering/domain-model/LENS.md` | Evans, Vernon |
+| depth | `${CLAUDE_PLUGIN_ROOT}/skills/engineering/depth/LENS.md` | Ousterhout |
 
 A lens skill (e.g. `/jacky-skills:depth`) runs this process with only its own lens.
 

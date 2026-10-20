@@ -10,5 +10,13 @@
     "ddd",
     "deep-modules",
     "skills"
+  ],
+  "skills": [
+    "./skills/engineering/depth",
+    "./skills/engineering/domain-model",
+    "./skills/engineering/listen-to-tests",
+    "./skills/engineering/responsibilities",
+    "./skills/engineering/restructure",
+    "./skills/in-progress/map"
   ]
 }
