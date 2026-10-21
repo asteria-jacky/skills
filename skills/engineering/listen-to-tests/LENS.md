@@ -2,6 +2,12 @@
 
 _Freeman & Pryce, Growing Object-Oriented Software, Guided by Tests (GOOS), and Freeman, Pryce, Mackinnon & Walnes, "Mock Roles, not Objects" (OOPSLA 2004)._
 
+## Goal
+
+Mock objects support good design "by guiding the discovery of a coherent system of types within a code base" (Freeman, Pryce, Mackinnon & Walnes, "Mock Roles, not Objects", the authors' summary). "The qualities that make an object easy to test also make our code responsive to change" (GOOS ch. 20) †.
+
+This lens usually counts `test-setup` (setup lines, mocks and expectations per test). The design effect behind a test signal is usually a `reasons-to-change` or `places-to-change` count in the production code. The measures are defined in `shared/FINDINGS.md`.
+
 When a test is hard to write, hard to read, or breaks for reasons unrelated to what it checks, that **test pain** is feedback on the production design. Ask _why_ the test is hard, not _how_ to make it pass. The answer is usually a missing object, a role nobody named, or a responsibility in the wrong place. GOOS ch. 20 "Listening to the Tests" is the catalogue; the paper supplies the reasoning: mock objects are "really a technique for identifying types in a system based on the roles that objects play".
 
 Every finding is a judgement call: name the smell ("possible Bloated Constructor"), never a verdict. A repo's documented test standards and ADRs override this lens.
@@ -146,3 +152,10 @@ Name the `concept` so these overlaps merge into one move:
 - Converting the suite between mockist and classicist styles, or recommending a mocking library.
 - Mocks used to isolate third-party code: the paper finds this "less interesting… than is widely thought". The finding is the missing adapter, if any.
 - Test coverage percentages, test speed and flaky infrastructure, unless the flakiness traces to a hidden dependency (see **Can't replace a dependency**).
+
+## It's working if
+
+- Every Strong finding shows a counted effect, and its evidence names the tests and lines counted.
+- Each finding says whether the fix belongs in the test (over-specified) or in the production code (wrong structure).
+- Each finding names the role, value or object the tests keep reaching for, not only the test that hurts.
+- Recommendations stay within the suite's own test style.

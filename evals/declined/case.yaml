@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: declined
+description: The smell-in-diff change, with a move log that declined the fix on the same evidence.
+expected_outcome: "not change; the move listed under Declined before with its logged key"
+tags: [verdict, depth]
+context:
+  scaffold_script: fixture.sh

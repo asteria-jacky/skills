@@ -2,6 +2,12 @@
 
 _Ousterhout, A Philosophy of Software Design (2nd ed. 2021), his Stanford CS 190 course (Winter 2024), and his joint record with Robert Martin, aposd-vs-clean-code (2024–25)._
 
+## Goal
+
+Ousterhout: "the fundamental goal of software design is to make it easy to understand and modify the system" (aposd-vs-clean-code). Complexity is "things that make it hard to understand and modify a system".
+
+This lens usually counts `places-to-change` (change amplification †: one decision known in many places) and `must-know` (cognitive load and unknown unknowns †: what a caller must know, and where that knowledge hides). The measures are defined in `shared/FINDINGS.md`.
+
 Complexity is the enemy, and its causes are **dependencies** and **obscurity** (CS 190 "Key Concepts"): how much a developer must hold in their head to change something safely, and how hard that information is to find. The main tool against it is the **deep module**: a lot of functionality behind a simple interface, so callers know little and changes stay inside. A shallow module, one whose interface is nearly as complex as its body, adds a thing to learn without hiding anything. Ousterhout's summary: "Pull complexity downward, push specialization upward."
 
 Here, depth means **how much a caller doesn't need to know**: what the module hides, set against what its interface makes callers understand. Line counts don't measure it.
@@ -114,6 +120,14 @@ The test both accept: an extracted piece earns its place when its interface is s
 
 ## Out of scope
 
-- Module, package and service boundaries: report them as **hints** for `/modularity:review` or `/improve-codebase-architecture`. This lens works at class and function scale.
+- Module, package and service boundaries: report them as **hints**. This lens works at class and function scale.
 - Writing or editing comments; formatting and style.
 - Performance, except where a design choice made for performance leaks into interfaces.
+
+## It's working if
+
+- Every Strong finding shows a counted effect, and its evidence lists each place or item counted.
+- Each `must-know` count names what a caller must know: parameters, flags, ordering rules, error cases.
+- Each leakage finding names the decision that leaks, not only the classes that share it.
+- Each `combine` or `inline` finding gives the evidence for the extract-versus-combine test.
+- Module and service-scale smells appear as hints, not findings.

@@ -2,6 +2,12 @@
 
 _Evans, Domain-Driven Design (2003) and the DDD Reference (2015); Vernon, "Effective Aggregate Design" (2011) and Implementing Domain-Driven Design (2013), ch. 10 "Aggregates"._
 
+## Goal
+
+Evans: "Translation blunts communication and makes knowledge crunching anemic" (DDD Reference, Ubiquitous Language). A supple design makes "the consequences of a change … easy to anticipate" (DDD Reference, Supple Design).
+
+This lens usually counts `names-per-concept` (translation: how many names the code uses for one glossary concept) and `places-to-change` (a domain rule written in several places instead of one). The measures are defined in `shared/FINDINGS.md`.
+
 The code is a model of the domain, and it should **speak the domain's language**: one term per concept, one concept per term, and the same words the domain experts and `GLOSSARY.md` use. Evans: "Use the model as the backbone of a language… Recognize that a change in the language is a change to the model." A concept the experts talk about but the code doesn't name, a rule buried in an `if`, an object that should be a value but has identity: each makes the code harder to change in the ways the business changes. This lens finds where the model and the language have drifted apart, and where the model could go deeper.
 
 Every finding is a judgement call: name the smell ("possible missing value object"), never a verdict. A repo's documented standards and ADRs override this lens. If a finding contradicts an ADR, say so explicitly in the finding.
@@ -136,6 +142,14 @@ A breakthrough is a restructure where a new or reframed concept makes several pr
 
 ## Out of scope
 
-- Bounded-context boundaries and context maps: report them as **hints** for `/modularity:review`.
+- Bounded-context boundaries and context maps: report them as **hints**.
 - Writing or editing `GLOSSARY.md` and ADRs as findings: that belongs to `/domain-modeling`. A finding may say which entry a rename would change.
 - Persistence, framework and infrastructure design, except where it leaks into the domain model.
+
+## It's working if
+
+- Findings name the domain concept in the `GLOSSARY.md` term, not the class.
+- Every Strong finding shows a counted effect, and its evidence lists each name or place counted.
+- Each `names-per-concept` count lists every name found, with a file count for each.
+- Each finding that contradicts an ADR says so and names the ADR.
+- Claims about what a smaller aggregate gives stay marked † unless the repo shows evidence such as lock errors or retries.

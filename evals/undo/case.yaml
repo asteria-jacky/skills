@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: undo
+description: A change undoes a move the move log records as applied. The review must ask.
+expected_outcome: "verdict: ask; the Undoes section names the applied key"
+tags: [verdict, restructure]
+context:
+  scaffold_script: fixture.sh

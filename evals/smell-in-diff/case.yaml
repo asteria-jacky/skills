@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: smell-in-diff
+description: The change writes the tax rule out in two new places. The depth lens must call it necessary.
+expected_outcome: "verdict: change; a necessary move whose key names Tax, listed as necessary in report.md"
+tags: [verdict, depth]
+context:
+  scaffold_script: fixture.sh

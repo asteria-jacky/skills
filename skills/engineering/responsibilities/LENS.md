@@ -2,6 +2,12 @@
 
 _Fowler (with Beck), Refactoring 2nd ed., ch. 3 "Bad Smells in Code"; Martin, Agile Software Development and Clean Code; Fowler, "TellDontAsk"._
 
+## Goal
+
+Fowler: refactoring makes software "easier to understand and cheaper to modify without changing its observable behavior" (DefinitionOfRefactoring). The outcome is change locality: one change, one place.
+
+This lens usually counts `places-to-change` (Shotgun Surgery, Duplicated Code: the places one change touches) and `reasons-to-change` (Divergent Change, SRP: the separate reasons one unit changes, from `git log` when it shows them). The measures are defined in `shared/FINDINGS.md`.
+
 Each piece of behaviour has **one home**: the object that holds the data it works on and changes for the same reason it does. When behaviour lives away from its data, when one unit changes for several unrelated reasons, or when one concept is written out in several places, the code fights every change. Martin's Single Responsibility Principle names the test: "Gather together the things that change for the same reasons. Separate those things that change for different reasons." Fowler's smells are the signals; his catalogue (refactoring.com/catalog) names the moves.
 
 Every finding is a judgement call: name the smell ("possible Feature Envy"), never a verdict. A repo's documented standards and ADRs override this lens.
@@ -74,7 +80,7 @@ These pull against each other, and Fowler's catalogue lists each refactoring as 
 
 - **Message Chains** look like `a.getB().getC().doThing()`: the caller knows the structure between objects. Remedy: Hide Delegate, or Extract Function then Move Function so the chain becomes one request.
 - **Middle Man** looks like a class whose methods mostly forward to another. Remedy: Remove Middle Man, or Inline Function.
-- **Means:** each fix overdone produces the other smell. Say which side of the balance the code is on, and mark `direction: hide` or `direction: remove` so `restructure` can surface a conflict with the depth lens.
+- **Means:** each fix overdone produces the other smell. Say which side of the balance the code is on, and mark `direction: hide` (Hide Delegate) or `direction: expose` (Remove Middle Man) so `restructure` can surface a conflict with the depth lens.
 
 ## Catalogue: a concept with no type
 
@@ -139,7 +145,7 @@ Before proposing an Extract Function or Extract Class, check:
 - Is the extracted piece's interface simpler than its body?
 - Can a reader understand each piece without reading the other? If understanding one means flipping back and forth to the other, the pieces are entangled; keep them together.
 
-If either answer is no, drop the finding or downgrade it to `Speculative` with the reason. When you extract anyway, mark `direction: extract` so `restructure` can surface a conflict with the depth lens.
+If either answer is no, drop the finding or downgrade it to `Possible` with the reason. When you extract anyway, mark `direction: extract` so `restructure` can surface a conflict with the depth lens.
 
 ## Where this lens meets the others
 
@@ -149,6 +155,13 @@ If either answer is no, drop the finding or downgrade it to `Speculative` with t
 
 ## Out of scope
 
-- Module- and service-scale coupling and boundaries: report them as **hints** for `/modularity:review`.
-- Mechanical duplication with no domain concept behind it (boilerplate, repeated plumbing): a **hint** for `/simplify`.
+- Module- and service-scale coupling and boundaries: report them as **hints**.
+- Mechanical duplication with no domain concept behind it (boilerplate, repeated plumbing): a **hint**.
 - Formatting, style and naming conventions a linter or formatter owns.
+
+## It's working if
+
+- Every Strong finding shows a counted effect, and its evidence lists each place or commit counted.
+- Each `reasons-to-change` count names the reasons, and the actors behind them when the code or history shows them.
+- Each finding names the home the behaviour moves to, and the data that home holds.
+- Each `extract` finding passes the stop condition: the extracted piece's interface is simpler than its body.

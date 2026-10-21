@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: smell-outside-diff
+description: The tax-rule smell sits only in untouched code. No move may be necessary.
+expected_outcome: "verdict: pass or advise"
+tags: [verdict, depth]
+context:
+  scaffold_script: fixture.sh

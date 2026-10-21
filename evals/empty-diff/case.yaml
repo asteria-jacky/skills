@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: empty-diff
+description: Nothing changed since base. The review must write a no-change failure and no verdict.
+expected_outcome: "failure: no-change"
+tags: [failure, depth]
+context:
+  scaffold_script: fixture.sh

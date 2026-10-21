@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: clean
+description: A tidy change that reuses the tax rule's one home. The review must never say change.
+expected_outcome: "verdict: pass (bar: never change)"
+tags: [clean, responsibilities]
+context:
+  scaffold_script: fixture.sh
